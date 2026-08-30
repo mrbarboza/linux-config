@@ -170,6 +170,16 @@ binds {
 
     Super+Alt+L hotkey-overlay-title="Lock the Screen" { spawn-sh "noctalia msg session lock"; }
 
+    // Clipboard, session, notifications, Wi-Fi, Bluetooth
+    Mod+X hotkey-overlay-title="Session menu" { spawn-sh "noctalia msg panel-toggle session"; }
+    Mod+N hotkey-overlay-title="Notifications" { spawn-sh "noctalia msg panel-toggle notifications"; }
+    Mod+Shift+C hotkey-overlay-title="Clipboard history" { spawn-sh "noctalia msg panel-toggle clipboard"; }
+    Mod+Shift+W hotkey-overlay-title="Wi-Fi" { spawn-sh "noctalia msg panel-toggle wifi"; }
+    Mod+Shift+B hotkey-overlay-title="Bluetooth" { spawn-sh "noctalia msg panel-toggle bluetooth"; }
+
+    XF86WLAN      allow-when-locked=true { spawn-sh "noctalia msg wifi-toggle"; }
+    XF86Bluetooth allow-when-locked=true { spawn-sh "noctalia msg bluetooth-toggle"; }
+
     // Volume & brightness via Noctalia (OSD + themed sliders)
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "noctalia msg volume-up"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "noctalia msg volume-down"; }
@@ -183,7 +193,7 @@ binds {
     XF86AudioStop allow-when-locked=true { spawn-sh "playerctl stop"; }
     XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
     XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
-    XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86AudioMicMute allow-when-locked=true { spawn-sh "noctalia msg mic-mute"; }
 
     Mod+O repeat=false { toggle-overview; }
     Mod+Q repeat=false { close-window; }

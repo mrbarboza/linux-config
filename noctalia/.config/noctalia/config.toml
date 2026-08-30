@@ -2,24 +2,38 @@
 # Omitted keys keep Noctalia defaults and hot-reload on save.
 # Set a cyberpunk wallpaper (Night City, neon rain, etc.) so
 # source = "wallpaper" can pull hot pink / cyan into the palette.
+#
+# Desktop utilities (Wi-Fi, Bluetooth, launcher, tray, clipboard,
+# notifications, session) are Noctalia's job. Do not also run
+# nm-applet, blueman, waybar, mako, dunst, or swaync.
 
 [theme]
-mode            = "dark"
-source          = "wallpaper"
+mode             = "dark"
+source           = "wallpaper"
 wallpaper_scheme = "vibrant"
-pure_black_dark = true
+pure_black_dark  = true
 
 [shell]
 font_family = "JetBrainsMono Nerd Font"
 corner_radius_scale = 1.0
 niri_overview_type_to_launch_enabled = true
+polkit_agent = true
+clipboard_enabled = true
 
 [shell.panel]
-transparency_mode = "glass"
-borders           = true
-shadow            = true
+transparency_mode        = "glass"
+borders                  = true
+shadow                   = true
 launcher_placement       = "floating"
 control_center_placement = "attached"
+clipboard_placement      = "floating"
+session_placement        = "attached"
+
+[shell.launcher]
+categories  = true
+show_icons  = true
+sort_by_usage = true
+app_grid    = false
 
 [wallpaper]
 enabled   = true
@@ -35,3 +49,66 @@ enabled         = true
 blurred_desktop = true
 blur_intensity  = 0.6
 tint_intensity  = 0.35
+
+[notification]
+enable_daemon = true
+show_app_name = true
+show_actions  = true
+
+[osd]
+position    = "top_right"
+orientation = "horizontal"
+
+[osd.kinds]
+volume     = true
+brightness = true
+wifi       = true
+bluetooth  = true
+dnd        = true
+privacy    = true
+
+# ── Bar: launcher, network, bluetooth, and the rest of the shell ──────────────
+
+[bar.main]
+position           = "top"
+thickness          = 34
+background_opacity = 0.92
+radius             = 12
+shadow             = true
+reserve_space      = true
+capsule            = true
+start  = ["launcher", "workspaces"]
+center = ["clock"]
+end    = ["tray", "notifications", "clipboard", "network", "bluetooth", "volume", "brightness", "battery", "control-center", "session"]
+
+[widget.network]
+show_label = false
+vpn_status = "replace"
+
+[widget.bluetooth]
+show_label = false
+
+[widget.volume]
+show_label = false
+
+[widget.battery]
+show_label = false
+
+# Control Center home shortcuts (max 6).
+[[control_center.shortcuts]]
+type = "wifi"
+
+[[control_center.shortcuts]]
+type = "bluetooth"
+
+[[control_center.shortcuts]]
+type = "nightlight"
+
+[[control_center.shortcuts]]
+type = "notification"
+
+[[control_center.shortcuts]]
+type = "wallpaper"
+
+[[control_center.shortcuts]]
+type = "session"
