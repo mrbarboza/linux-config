@@ -2,7 +2,17 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
-config.color_scheme = "cyberpunk"
+-- Pick one of: cyberpunk, tokyo-night, rose-pine.
+-- Override per machine with LINUX_CONFIG_THEME.
+local theme = os.getenv("LINUX_CONFIG_THEME") or "cyberpunk"
+
+local color_schemes = {
+  ["cyberpunk"] = "cyberpunk",
+  ["tokyo-night"] = "Tokyo Night",
+  ["rose-pine"] = "Rosé Pine",
+}
+
+config.color_scheme = color_schemes[theme] or color_schemes["cyberpunk"]
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = "Regular" })
 config.font_size = 13.0
 config.enable_tab_bar = false
