@@ -1,0 +1,7 @@
+name = "Rosé Pine"
+background = "#191724"
+surface = "#1f1d2e"
+foreground = "#e0def4"
+accent = "#c4a7e7"
+accent_alt = "#ebbcba"
+urgent = "#eb6f92"
