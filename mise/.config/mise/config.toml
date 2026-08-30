@@ -1,0 +1,5 @@
+# mise configuration
+# Tool versions are intentionally managed per project via mise.toml.
+# This file provides global defaults only.
+[settings]
+idiomatic_version_file_enable_tools = ["node", "python", "ruby", "go"]
