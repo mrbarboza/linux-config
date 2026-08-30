@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Omarchy-inspired theme picker.
+# Uses Noctalia's native launcher UI when available through its panel prompt,
+# while keeping theme state and application independent of the shell.
+
+ROOT="${XDG_CONFIG_HOME:-$HOME/.config}/linux-config"
+STATE="${XDG_STATE_HOME:-$HOME/.local/state}/linux-config"
+THEMES_DIR="$ROOT/themes"
+ACTIVE="$STATE/theme"
+
+mkdir -p "$STATE"
+
+themes=(cyberpunk tokyo-night rose-pine)
+
+current="$(cat "$ACTIVE" 2>/dev/null || printf 'cyberpunk')"
+
+# A compact picker using fuzzel as a fallback. Noctalia remains responsible
+# for shell theming; this only chooses the semantic desktop theme.
+choice="$(printf '%s\n' "${themes[@]}" | fuzzel --dmenu --prompt='Theme › ' --placeholder="Current: $current" || true)"
+[ -n "$choice" ] || exit 0
+
+printf '%s\n' "$choice" > "$ACTIVE"
+
+palette="$THEMES_DIR/$choice/palette.toml"
+[ -f "$palette" ] || { notify-send "linux-config" "Theme '$choice' is missing"; exit 1; }
+
+# Render Niri colors from the semantic palette.
+background="$(awk -F' = ' '$1=="background" {gsub(/"/,"",$2); print $2}' "$palette")"
+surface="$(awk -F' = ' '$1=="surface" {gsub(/"/,"",$2); print $2}' "$palette")"
+accent="$(awk -F' = ' '$1=="accent" {gsub(/"/,"",$2); print $2}' "$palette")"
+accent_alt="$(awk -F' = ' '$1=="accent_alt" {gsub(/"/,"",$2); print $2}' "$palette")"
+urgent="$(awk -F' = ' '$1=="urgent" {gsub(/"/,"",$2); print $2}' "$palette")"
+
+cat > "$ROOT/niri-theme.kdl" <<EOF
+layout {
+    background-color "$background"
+    focus-ring {
+        width 3
+        active-gradient from="$accent" to="$accent_alt" angle=135
+        inactive-color "$surface"
+    }
+    border {
+        width 1
+        active-color "$accent_alt"
+        inactive-color "$surface"
+        urgent-color "$urgent"
+    }
+}
+overview { backdrop-color "$background" }
+EOF
+
+# Noctalia custom palettes hot-reload from its config directory.
+mkdir -p "${XDG_CONFIG_HOME:-$HOME/.config}/noctalia/palettes"
+cat > "${XDG_CONFIG_HOME:-$HOME/.config}/noctalia/palettes/linux-config.json" <<EOF
+{
+  "name": "$choice",
+  "background": "$background",
+  "surface": "$surface",
+  "primary": "$accent",
+  "secondary": "$accent_alt",
+  "error": "$urgent"
+}
+EOF
+
+# Persist the selected theme name for terminals and future app integrations.
+printf '%s\n' "$choice" > "$ROOT/active-theme"
+
+niri msg action load-config 2>/dev/null || true
+notify-send "Theme applied" "$choice"
