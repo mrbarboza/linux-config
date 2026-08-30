@@ -1,0 +1,37 @@
+# Noctalia v5+ — Cyberpunk 2077 inspired desktop shell.
+# Omitted keys keep Noctalia defaults and hot-reload on save.
+# Set a cyberpunk wallpaper (Night City, neon rain, etc.) so
+# source = "wallpaper" can pull hot pink / cyan into the palette.
+
+[theme]
+mode            = "dark"
+source          = "wallpaper"
+wallpaper_scheme = "vibrant"
+pure_black_dark = true
+
+[shell]
+font_family = "JetBrainsMono Nerd Font"
+corner_radius_scale = 1.0
+niri_overview_type_to_launch_enabled = true
+
+[shell.panel]
+transparency_mode = "glass"
+borders           = true
+shadow            = true
+launcher_placement       = "floating"
+control_center_placement = "attached"
+
+[wallpaper]
+enabled   = true
+fill_mode = "crop"
+
+[backdrop]
+enabled        = true
+blur_intensity = 0.55
+tint_intensity = 0.25
+
+[lockscreen]
+enabled         = true
+blurred_desktop = true
+blur_intensity  = 0.6
+tint_intensity  = 0.35
