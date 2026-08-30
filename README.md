@@ -45,8 +45,8 @@ Pick **Niri** from your display manager (or start it from a TTY with `niri-sessi
 ## Installation
 
 ```bash
-git clone git@github.com:mrbarboza/linux-config.git ~/dotfiles/linux-config
-cd ~/dotfiles/linux-config
+git clone git@github.com:mrbarboza/linux-config.git ~/dotfiles
+cd ~/dotfiles
 stow niri noctalia wezterm
 ```
 
