@@ -1,0 +1,3 @@
+return {
+  wezterm = "Tokyo Night",
+}
